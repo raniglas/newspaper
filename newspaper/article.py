@@ -20,7 +20,7 @@ from .configuration import Configuration
 from .extractors import ContentExtractor
 from .outputformatters import OutputFormatter
 from .utils import (URLHelper, RawHelper, extend_config,
-                    get_available_languages, get_unicode)
+                    get_available_languages, get_unicode, get_languages_dict)
 from .videos.extractors import VideoExtractor
 
 log = logging.getLogger(__name__)
@@ -104,6 +104,7 @@ class Article(object):
 
         # Meta language field in HTML source
         self.meta_lang = u""
+        self.lang = u""
 
         # Meta favicon field in HTML source
         self.meta_favicon = u""
@@ -226,6 +227,8 @@ class Article(object):
 
         if self.config.fetch_images:
             self.fetch_images()
+
+        self.lang = get_languages_dict().get(self.meta_lang, self.meta_lang)
 
         self.is_parsed = True
         self.release_resources()

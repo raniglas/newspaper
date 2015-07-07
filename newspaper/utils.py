@@ -342,10 +342,8 @@ def get_available_languages():
     return two_dig_codes
 
 
-def print_available_languages():
-    """Prints available languages with their full names
-    """
-    language_dict = {
+def get_languages_dict():
+    return {
         'ar':   'Arabic',
         'ru':   'Russian',
         'nl':   'Dutch',
@@ -367,6 +365,11 @@ def print_available_languages():
         'id':   'Indonesian',
         'vi':   'Vietnamese',
     }
+
+def print_available_languages():
+    """Prints available languages with their full names
+    """
+    language_dict = get_languages_dict()
 
     codes = get_available_languages()
     print '\nYour available languages are:'
