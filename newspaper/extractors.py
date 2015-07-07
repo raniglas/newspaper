@@ -326,6 +326,11 @@ class ContentExtractor(object):
                     attr = self.parser.getAttribute(
                         meta[0], attr='content')
                     break
+        if attr is None:
+            # look up lang in title
+            elem = self.parser.getElementsByTag(doc, tag='title', attr='lang')
+            if elem:
+                attr = self.parser.getAttribute(elem[0], attr='lang')
         if attr:
             value = attr[:2]
             if re.search(RE_LANG, value):
