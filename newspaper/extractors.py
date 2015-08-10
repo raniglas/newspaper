@@ -336,6 +336,12 @@ class ContentExtractor(object):
             if re.search(RE_LANG, value):
                 return value.lower()
 
+        # use langid to classify language
+        import langid
+        id = langid.classify(doc.text_content())
+        if id and len(id[0]) == 2:
+            return id[0]
+
         return None
 
     def get_meta_content(self, doc, metaName):
