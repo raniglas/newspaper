@@ -51,6 +51,7 @@ def get_html(url, config=None, response=None):
     try:
         html = None
         response = requests.get(url=url,
+                                verify=False,
                                 **get_request_kwargs(timeout, useragent))
         if response.encoding != FAIL_ENCODING:
             html = response.text
@@ -80,7 +81,9 @@ class MRequest(object):
 
     def send(self):
         try:
-            self.resp = requests.get(self.url, **get_request_kwargs(
+            self.resp = requests.get(self.url,
+                                     verify=False,
+                                     **get_request_kwargs(
                                      self.timeout, self.useragent))
         except Exception, e:
             pass
