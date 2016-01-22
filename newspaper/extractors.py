@@ -311,6 +311,13 @@ class ContentExtractor(object):
     def get_meta_lang(self, doc):
         """Extract content language from meta
         """
+        # use langid to classify language
+        import langid
+        id = langid.classify(doc.text_content())
+        if id and len(id[0]) == 2 and id[1] > 0.7:
+            log.info('Detected language %s with probability %s' % (id[0], id[1]))
+            return id[0]
+
         # we have a lang attribute in html
         attr = self.parser.getAttribute(doc, attr='lang')
         if attr is None:
@@ -335,12 +342,6 @@ class ContentExtractor(object):
             value = attr[:2]
             if re.search(RE_LANG, value):
                 return value.lower()
-
-        # use langid to classify language
-        import langid
-        id = langid.classify(doc.text_content())
-        if id and len(id[0]) == 2:
-            return id[0]
 
         return None
 
